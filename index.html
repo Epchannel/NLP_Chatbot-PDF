@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+:root {
+    --bg-color: #1f242d;
+    --second-bg-color: #323946;
+    --text-color: #fff;
+    --main-color: #0ef;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-size: 62.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 3rem;
+    color: var(--main-color);
+    margin-bottom: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 50px; /* Hoặc kích thước khác phù hợp */
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+/* Css khung chat */
+#chat_history {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--second-bg-color);
+    border-radius: 2rem;
+    padding: 10px;
+    margin-bottom: 20px;
+    height: 300px; /* Adjust the height as needed */
+    overflow-y: auto;
+    box-shadow: 0 0 2rem var(--main-color);
+    background: var(--second-bg-color);
+}
+
+.message {
+    max-width: 80%; /* Giới hạn chiều rộng tối đa của tin nhắn */
+    word-break: break-word; /* Ngắt từ để tránh tràn nội dung */
+    overflow-wrap: break-word; /* Đảm bảo nội dung không tràn ra ngoài */
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.message-content {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: var(--main-color); /* Hoặc màu bạn chọn */
+    color: var(--text-color);
+}
+
+.message-container {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.message-sender {
+    color: var(--bg-color);
+    font-weight: bold;
+    display: block; /* Đảm bảo sender nằm trên một dòng riêng */
+}
+
+
+.user-message {
+    flex-direction: row-reverse;
+    font-size: 13px;
+    align-self: flex-end;
+    /* background-color: var(--main-color); */
+    color: var(--text-color);
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+.user-message .message-content {
+    background-color: var(--main-color); /* Màu bạn chọn cho người dùng */
+}
+
+.user-message .avatar {
+    font-size: 23px;
+    margin-right: 10px;
+    margin-left: 5px;   
+}
+
+
+.bot-message {
+    flex-direction: row;
+    font-size: 13px;
+    align-self: flex-start;
+    /* background-color: var(--main-color); */
+    /* color: var(--second-bg-color); */
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+.bot-message .message-content {
+    color: var(--second-bg-color);
+    background-color: var(--main-color); /* Màu bạn chọn cho bot */
+}
+
+.bot-message .avatar {
+    font-size: 23px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.input-area {
+    display: flex;
+    justify-content: center;
+}
+
+#question {
+    flex-grow: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--second-bg-color);
+}
+
+button {
+    height: 38px;
+    position: relative;
+    display: inline-block;
+    padding: .5rem 2.8rem;
+    background: var(--main-color);
+    border-radius: 4rem;
+    box-shadow: 0 0 1rem var(--main-color);
+    font-size: 1rem;
+    color: var(--second-bg-color);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: .5s ease;
+}
+
+button:hover {
+    box-shadow: none;
+}
+
+.input-area {
+    width: 100%;
+    color: var(--text-color);
+    padding: 10px;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+
+.input-area input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--main-color);
+    background-color: var(--second-bg-color);
+    color: var(--text-color);
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 30px;
+    color: var(--text-color);
+    font-size: 0.8rem;
+}
+
+#chat_container {
+    display: none;
+}
+
+.drop-area {
+    font-size: 20px;
+    height: 120px;
+    box-shadow: 0 0 1rem var(--main-color);
+    color: var(--text-color);
+    border: 2px dashed var(--main-color);
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center; /* Thêm dòng này */
+    display: flex; /* Thêm dòng này */
+    flex-direction: column; /* Đặt các mục con theo hướng dọc */
+    text-align: center;
+    padding: 20px;
+    transition: .5s ease;
+}
+
+.drop-area:hover {
+    color: var(--second-bg-color);
+    background-color: var(--main-color);
+    /* cursor: pointer; */
+}
+
+/*Tải tập tin */
+.drop-area label {
+    font-size: 30px;
+    cursor: pointer;
+    margin-bottom: 5px ;
+    display: flex; /* Thêm dòng này */
+    align-items: center; /* Thêm dòng này */
+    justify-content: center; /* Thêm dòng này nếu muốn căn giữa theo chiều ngang */
+}
+
+.drop-area p {
+    font-size: 10px;
+    display: flex; /* Thêm dòng này */
+    align-items: center; /* Thêm dòng này */
+    justify-content: center; /* Thêm dòng này nếu muốn căn giữa theo chiều ngang */
+}
+
+.file-upload h3 {
+    font-size: 2rem;
+    font-weight: 200px;
+}
+
+span { /*Hãy nói chuyện với file PDF của bạn */
+    color: var(--main-color);
+}
+
+.drop-area label,
+.drop-area p {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+}
+
+.drop-area label i,
+.drop-area p i {
+    margin-right: 8px; /* Khoảng cách giữa icon và văn bản */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="file-upload">
+        <div class="header">
+            <img src="https://live.staticflickr.com/65535/53407811744_fe87a982c6_o.png" alt="Logo" class="logo">
+            <h2>Chatbot PDF</h2>
+        </div>
+        <h3>Nơi cuộc trò chuyện gặp gỡ công nghệ <span>Hãy nói chuyện với file PDF của bạn</span></h3>
+        <input type="file" id="pdfFile" accept=".pdf" onchange="checkFileType()" hidden>
+        <div id="dropArea" class="drop-area">
+            <label for="pdfFile"><i class="fa fa-file"></i> Chọn Tập tin</label>
+            <p><i class="fa fa-lock"></i> Kéo và thả tập tin PDF của bạn vào đây.</p>
+        </div>
+        <footer>
+            © 2023 Chatbot PDF. Bài tập Học phần Xử lý ngôn ngữ tự nhiên.
+        </footer>
+    </div>
+    
+    
+    <div id="chat_container" class="container">
+
+        <div class="header">
+            <img src="https://live.staticflickr.com/65535/53407811744_fe87a982c6_o.png" alt="Logo" class="logo">
+            <h2>Chatbot PDF</h2>
+        </div>
+        <div id="chat_history">
+            <!-- Lịch sử chat sẽ được hiển thị ở đây -->
+        </div>
+        <div class="input-area">
+            <input type="text" id="question" placeholder="Nhập câu hỏi của bạn">
+            <button onclick="sendQuestion()">Gửi</button>
+        </div>
+        <footer>
+            © 2023 Chatbot PDF. Bài tập Học phần Xử lý ngôn ngữ tự nhiên.
+        </footer>
+    </div>
+
+    
+
+    <script>
+        // Check file upload
+        function checkFileType() {
+            var fileInput = document.getElementById('pdfFile');
+            var filePath = fileInput.value;
+            var allowedExtensions = /(\.pdf)$/i;
+
+            if(!allowedExtensions.exec(filePath)){
+                alert('Vui lòng upload file có định dạng PDF.');
+                fileInput.value = '';
+                return false;
+            }
+
+            // Hiển thị container chatbot khi file PDF được chọn
+            document.getElementById('chat_container').style.display = 'block';
+
+            // Ẩn phần tử input file
+            document.querySelector('.file-upload').style.display = 'none';
+        }
+
+        // Check file drop
+        document.getElementById('dropArea').addEventListener('dragover', function(event) {
+            event.preventDefault(); // Ngăn chặn mặc định để cho phép thả
+            event.target.style.background = 'lightblue'; // Thay đổi màu nền khi file được kéo vào
+        });
+
+        document.getElementById('dropArea').addEventListener('dragleave', function(event) {
+            event.target.style.background = ''; // Trở lại màu nền ban đầu khi file không còn trong khu vực
+        });
+
+        document.getElementById('dropArea').addEventListener('drop', function(event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định
+            event.target.style.background = ''; // Trở lại màu nền ban đầu
+
+            var file = event.dataTransfer.files[0]; // Lấy file đã được thả
+
+            // Kiểm tra xem file có phải PDF không
+            if(file.type !== "application/pdf") {
+                alert("Vui lòng chọn một file PDF.");
+                return;
+            }
+
+            document.getElementById('pdfFile').files = event.dataTransfer.files; // Đặt file vào input
+            checkFileType(); // Gọi hàm để xử lý file
+        });
+
+
+
+
+        function sendQuestion() {
+            var xhr = new XMLHttpRequest();
+            var question = document.getElementById("question").value;
+
+            // Kiểm tra xem ô nhập liệu có rỗng hay không
+            if (question.trim() === "") {
+                return; // Ngừng thực thi hàm nếu không có nội dung
+            }
+            addToChatHistory(question, 'user');
+            xhr.open("POST", "/ask", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText;
+                    addToChatHistory(response, 'bot');
+                }
+            };
+            var data = JSON.stringify({"question": question});
+            xhr.send(data);
+            
+            // Xóa nội dung trong ô khi gửi đi
+            document.getElementById("question").value = "";
+        }
+    
+        function addToChatHistory(message, sender) {
+            var chatHistory = document.getElementById("chat_history");
+            var messageContainer = document.createElement("div");
+            messageContainer.classList.add("message-container", sender === 'user' ? 'user-message' : 'bot-message');
+
+            var avatar = document.createElement("i");
+            avatar.classList.add("avatar", "fa");
+            avatar.classList.add(sender === 'user' ? 'fa-user' : 'fa-robot'); // Sử dụng fa-user cho người dùng và fa-robot cho bot
+
+            var messageContent = document.createElement("div");
+            messageContent.classList.add("message-content");
+            messageContent.textContent = message;
+
+            messageContainer.appendChild(avatar);
+            messageContainer.appendChild(messageContent);
+
+            chatHistory.appendChild(messageContainer);
+        }
+
+
+        //Enter để gửi tin nhắn
+        document.getElementById("question").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của phím Enter
+                sendQuestion();
+            }
+        });
+
+    </script>
+</body>
+</html>
