@@ -56,7 +56,7 @@ def read_root():
 
 #Model
 """Load Data & Model"""
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 model = OpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
 
