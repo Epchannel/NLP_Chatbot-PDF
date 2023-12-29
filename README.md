@@ -5,4 +5,6 @@
 
   Mình là một sinh viên Trường Đại học Mỏ - Địa chất có niểm đam mê với Công nghệ thông tin, mình sẽ phát triển theo các hướng phổ biến như Parameter Efficient Finetuning (PEFT), Embedding + RAG cùng với framework Langchain để xây dựng. Từ đó, dùng FastAPI để xây dựng và kết nối với giao diện cho người dùng trực quan hơn. 
 
+Trường hợp mình muốn chat với con một con bot bất kỳ thì mình phải truy cập vào website của bot đó, và từ đó mình muốn xây dựng botchat cho riêng mình thì ở đây sử dụng Langchain.
+
 Tuy nhiên, trong quá trình deploy, mình đang gặp một số vấn đề nên chưa thành công, mình vẫn đang tìm hiểu. Mình đã thử các cách qua Heroku, Docker, VPS... mà vẫn chưa được như ý muốn, mình vẫn đang cập nhật thêm hì :3
