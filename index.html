@@ -198,9 +198,9 @@ footer {
     font-size: 0.8rem;
 }
 
-#chat_container {
+/* #chat_container {
     display: none;
-}
+} */
 
 .drop-area {
     font-size: 20px;
@@ -266,99 +266,29 @@ span { /*Hãy nói chuyện với file PDF của bạn */
     </style>
 </head>
 <body>
-    <div class="file-upload">
-        <div class="header">
-            <img src="https://live.staticflickr.com/65535/53407811744_fe87a982c6_o.png" alt="Logo" class="logo">
-            <h2>Chatbot PDF</h2>
-        </div>
-        <h3>Nơi cuộc trò chuyện gặp gỡ công nghệ <span>Hãy nói chuyện với file PDF của bạn</span></h3>
-        <input type="file" id="pdfFile" accept=".pdf" onchange="checkFileType()" hidden>
-        <div id="dropArea" class="drop-area">
-            <label for="pdfFile"><i class="fa fa-file"></i> Chọn Tập tin</label>
-            <p><i class="fa fa-lock"></i> Kéo và thả tập tin PDF của bạn vào đây.</p>
-        </div>
-        <footer>
-            © 2023 Chatbot PDF. Bài tập Học phần Xử lý ngôn ngữ tự nhiên.
-        </footer>
-    </div>
-    
-    
     <div id="chat_container" class="container">
-
         <div class="header">
             <img src="https://live.staticflickr.com/65535/53407811744_fe87a982c6_o.png" alt="Logo" class="logo">
-            <h2>Chatbot PDF</h2>
+            <h2>Chatbot HUMG</h2>
         </div>
         <div id="chat_history">
-            <!-- Lịch sử chat sẽ được hiển thị ở đây -->
         </div>
         <div class="input-area">
             <input type="text" id="question" placeholder="Nhập câu hỏi của bạn">
             <button onclick="sendQuestion()">Gửi</button>
         </div>
         <footer>
-            © 2023 Chatbot PDF. Bài tập Học phần Xử lý ngôn ngữ tự nhiên.
+            © 2024 Chatbot hỗ trợ tư vấn Trường Đại học Mỏ - Địa chất.
         </footer>
     </div>
-
-    
-
     <script>
-        // Check file upload
-        function checkFileType() {
-            var fileInput = document.getElementById('pdfFile');
-            var filePath = fileInput.value;
-            var allowedExtensions = /(\.pdf)$/i;
-
-            if(!allowedExtensions.exec(filePath)){
-                alert('Vui lòng upload file có định dạng PDF.');
-                fileInput.value = '';
-                return false;
-            }
-
-            // Hiển thị container chatbot khi file PDF được chọn
-            document.getElementById('chat_container').style.display = 'block';
-
-            // Ẩn phần tử input file
-            document.querySelector('.file-upload').style.display = 'none';
-        }
-
-        // Check file drop
-        document.getElementById('dropArea').addEventListener('dragover', function(event) {
-            event.preventDefault(); // Ngăn chặn mặc định để cho phép thả
-            event.target.style.background = 'lightblue'; // Thay đổi màu nền khi file được kéo vào
-        });
-
-        document.getElementById('dropArea').addEventListener('dragleave', function(event) {
-            event.target.style.background = ''; // Trở lại màu nền ban đầu khi file không còn trong khu vực
-        });
-
-        document.getElementById('dropArea').addEventListener('drop', function(event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định
-            event.target.style.background = ''; // Trở lại màu nền ban đầu
-
-            var file = event.dataTransfer.files[0]; // Lấy file đã được thả
-
-            // Kiểm tra xem file có phải PDF không
-            if(file.type !== "application/pdf") {
-                alert("Vui lòng chọn một file PDF.");
-                return;
-            }
-
-            document.getElementById('pdfFile').files = event.dataTransfer.files; // Đặt file vào input
-            checkFileType(); // Gọi hàm để xử lý file
-        });
-
-
-
-
         function sendQuestion() {
             var xhr = new XMLHttpRequest();
             var question = document.getElementById("question").value;
 
             // Kiểm tra xem ô nhập liệu có rỗng hay không
             if (question.trim() === "") {
-                return; // Ngừng thực thi hàm nếu không có nội dung
+                return; 
             }
             addToChatHistory(question, 'user');
             xhr.open("POST", "/ask", true);
@@ -371,8 +301,6 @@ span { /*Hãy nói chuyện với file PDF của bạn */
             };
             var data = JSON.stringify({"question": question});
             xhr.send(data);
-            
-            // Xóa nội dung trong ô khi gửi đi
             document.getElementById("question").value = "";
         }
     
@@ -383,7 +311,7 @@ span { /*Hãy nói chuyện với file PDF của bạn */
 
             var avatar = document.createElement("i");
             avatar.classList.add("avatar", "fa");
-            avatar.classList.add(sender === 'user' ? 'fa-user' : 'fa-robot'); // Sử dụng fa-user cho người dùng và fa-robot cho bot
+            avatar.classList.add(sender === 'user' ? 'fa-user' : 'fa-robot'); 
 
             var messageContent = document.createElement("div");
             messageContent.classList.add("message-content");
@@ -394,8 +322,6 @@ span { /*Hãy nói chuyện với file PDF của bạn */
 
             chatHistory.appendChild(messageContainer);
         }
-
-
         //Enter để gửi tin nhắn
         document.getElementById("question").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
