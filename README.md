@@ -8,3 +8,5 @@
 Trường hợp mình muốn chat với con một con bot bất kỳ thì mình phải truy cập vào website của bot đó, và từ đó mình muốn xây dựng botchat cho riêng mình thì ở đây sử dụng Langchain.
 
 Tuy nhiên, trong quá trình deploy, mình đang gặp một số vấn đề nên chưa thành công, mình vẫn đang tìm hiểu. Mình đã thử các cách qua Heroku, Docker, VPS... mà vẫn chưa được như ý muốn, mình vẫn đang cập nhật thêm hì :3
+
+Yêu cầu bắt buộc để run: Python 3.10.3; VS Build Tool; popler; Pytorch 2.2.0+cpu
